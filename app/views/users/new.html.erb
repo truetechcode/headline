@@ -1,0 +1,18 @@
+<h1>User Registration Form</h1>
+<%= form_with model: @user, url: users_path, class: 'max-w-md mx-auto' do |f| %>
+  <div>
+    <%= f.label :full_name %>
+    <%= f.text_field :name, class: 'form-input' %>
+  </div>
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email, class: 'form-input' %>
+  </div>
+  <div>
+    <%= f.label :password %>
+    <%= f.password_field :password, class: 'form-input' %>
+  </div>
+  <div>
+    <%= f.submit 'Register', class: 'btn' %>
+  </div>
+<% end %>
