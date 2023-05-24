@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "headlines#index"
+  root "articles#index"
 
   resources :users
 end
