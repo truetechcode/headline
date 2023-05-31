@@ -16,16 +16,16 @@
         <h1 class="text-4xl font-bold text-white">Headlines</h1>
       </div>
     </header>
+    <% if flash[:success] %>
+      <div class="flash flash-success">
+        <%= flash[:success] %>
+      </div>
+    <% elsif flash[:error] %>
+      <div class="flash flash-success">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
     <main class="container mx-auto mt-28 px-5 flex">
-      <% if flash[:success] %>
-        <div class="flash flash-success">
-          <%= flash[:success] %>
-        </div>
-      <% elsif flash[:error] %>
-        <div class="flash flash-success">
-          <%= flash[:error] %>
-        </div>
-      <% end %>
       <%= yield %>
     </main>
   </body>
