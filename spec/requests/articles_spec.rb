@@ -2,11 +2,58 @@ require 'rails_helper'
 
 RSpec.describe "Articles", type: :request do
   describe "GET /index" do
-    it 'renders all articles' do
+    it 'renders Headlines' do
       get articles_path
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Headlines')
+    end
+    context "with at least one saved article" do
+      before(:each) do
+        create(:user)
+        @article = create(:article)
+      end
+
+      it 'renders article source' do
+        p @article
+        get articles_path
+
+        expect(response.body).to include(@article['source'])
+      end
+      it 'renders article Title' do
+        get articles_path
+
+        expect(response.body).to include(@article['title'])
+      end
+      it 'renders article content' do
+        get articles_path
+
+        expect(response.body).to include(@article['content'])
+      end
+      it 'renders article url' do
+        get articles_path
+
+        expect(response.body).to include(@article['url'])
+      end
+      it 'renders article url_to_image' do
+        get articles_path
+
+        expect(response.body).to include(URI.parse(@article['url_to_image']).host)
+      end
+      it 'renders article publish_at' do
+        get articles_path
+
+        expect(response.body).to include(@article['publish_at'])
+      end
+    end
+
+    context "with no saved article" do
+      it 'returns a message: No saved article' do
+        get articles_path
+
+        expect(Article.all.count).to eq(0)
+        expect(response.body).to include('No Headlines')
+      end
     end
   end
 
