@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
 def index
 @articles = Article.all
-@live_articles = []
+@live_articles = [] # live articles from the news api
 end
 
 def new; end
