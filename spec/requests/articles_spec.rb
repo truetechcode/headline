@@ -15,7 +15,6 @@ RSpec.describe "Articles", type: :request do
       end
 
       it 'renders article source' do
-        p @article
         get articles_path
 
         expect(response.body).to include(@article['source'])
@@ -48,7 +47,7 @@ RSpec.describe "Articles", type: :request do
     end
 
     context "with no saved article" do
-      it 'returns a message: No saved article' do
+      it 'returns a message: No Headlines' do
         get articles_path
 
         expect(Article.all.count).to eq(0)
@@ -84,7 +83,7 @@ RSpec.describe "Articles", type: :request do
 
         follow_redirect!
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Article successfully saved')
+        expect(response.body).to include('Headline successfully saved')
       end
     end
 
@@ -97,6 +96,17 @@ RSpec.describe "Articles", type: :request do
         expect(Article.all.count).to eq(0)
         expect(response.body).to include("User must exist")
       end
+    end
+  end
+
+  describe 'DELETE /articles' do
+    let!(:article) { FactoryBot.create(:article) }
+
+    it 'deletes the article' do
+      expect {
+        delete article_path(article)
+      }.to change(Article, :count).by(-1)
+
     end
   end
 end
