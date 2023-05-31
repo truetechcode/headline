@@ -1,5 +1,8 @@
 class ArticlesController < ApplicationController
-def index; end
+def index
+@articles = Article.all
+@live_articles = []
+end
 
 def new; end
 
