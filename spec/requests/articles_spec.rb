@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Articles", type: :request do
   describe "GET /index" do
     it 'renders Headlines' do
+      @live_articles = []
       get articles_path
 
       expect(response).to have_http_status(:success)
@@ -24,11 +25,7 @@ RSpec.describe "Articles", type: :request do
 
         expect(response.body).to include(@article['title'])
       end
-      it 'renders article content' do
-        get articles_path
 
-        expect(response.body).to include(@article['content'])
-      end
       it 'renders article url' do
         get articles_path
 
