@@ -26,4 +26,13 @@ RSpec.describe User, type: :model do
       expect(user.save).to be_falsey
     end
   end
+
+  describe "remember token" do
+    it 'creates a new remember token when a user is saved' do
+      user = build(:user)
+      expect(user.save).to be_truthy
+
+      expect(user.remember_token).to_not be_nil
+    end
+  end
 end
