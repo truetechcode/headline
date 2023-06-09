@@ -1,7 +1,8 @@
 class ArticlesController < ApplicationController
+before_action :signed_in_user
 
 def index
-  @articles = Article.all
+  @articles = current_user.articles
 
   news_service = NewsApi.new('us')
   @live_articles = news_service.call || []
@@ -10,7 +11,7 @@ end
 def new; end
 
 def create
-  @article = Article.new(articles_params)
+  @article = current_user.articles.build(articles_params)
   @article.user = User.last
   if @article.save
     flash[:success] = "Headline successfully saved"
