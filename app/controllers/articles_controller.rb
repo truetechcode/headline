@@ -3,8 +3,8 @@ before_action :signed_in_user
 
 def index
   @articles = current_user.articles
-
-  news_service = NewsApi.new('us')
+  @country_code = (params[:country] || current_user.country_code).downcase
+  news_service = NewsApi.new(@country_code)
   @live_articles = news_service.call || []
 end
 
