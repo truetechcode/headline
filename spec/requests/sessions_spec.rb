@@ -9,7 +9,7 @@ RSpec.describe "Sessions", type: :request do
   end
 
   describe 'POST /sessions' do
-    let(:user) { {name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password'} }
+    let(:user) { {name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password', country_code: 'us'} }
 
     context 'with valid credentials' do
       before do
@@ -43,7 +43,7 @@ RSpec.describe "Sessions", type: :request do
   end
 
   describe 'DELETE /sessions' do
-    let(:user) { create(:user, name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password') }
+    let(:user) { create(:user, name: 'user', email: 'user@example.com', password: 'password', password_confirmation: 'password', country_code: 'us') }
 
       before(:each) do
         post sessions_path, params: { session: {email: 'user@example.com', password: 'password'} }

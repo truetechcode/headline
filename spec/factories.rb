@@ -5,6 +5,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { 'password' }
     password_confirmation { 'password' }
+    country_code {'us'}
   end
 
   factory :article do
