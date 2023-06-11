@@ -13,6 +13,10 @@
     <%= f.password_field :password, class: 'form-input' %>
   </div>
   <div>
+    <%= f.label :country_code %>
+    <%= f.country_select :country_code, { class: 'form-input' }, { name: 'Country Code' } %>
+  </div>
+  <div>
     <%= f.submit 'Register', class: 'btn' %>
   </div>
 <% end %>

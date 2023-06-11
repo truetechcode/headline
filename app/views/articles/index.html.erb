@@ -1,6 +1,14 @@
 <div class="grid grid-cols-2 gap-4">
   <div>
     <h1 class="text-4xl font-bold text-gray-500">Live Headlines</h1>
+    <%= form_with url: articles_path, method: :get, class: 'max-w-md mx-auto' do |f| %>
+      <div>
+        <%= f.country_select :country, { selected: @country_code }, { include_blank: 'Select a country' }, { class: 'form-input' } %>
+      </div>
+      <div>
+        <%= f.submit 'Search', class: 'btn' %>
+      </div>
+    <% end %>
     <div class="card-group">
       <% unless @live_articles.empty? %>
         <% @live_articles.each do |article| %>
