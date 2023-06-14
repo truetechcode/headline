@@ -14,9 +14,11 @@ def create
   @article = current_user.articles.build(articles_params)
   @article.user = User.last
   if @article.save
+    Rails.logger.info("Headline successfully saved")
     flash[:success] = "Headline successfully saved"
     redirect_to root_path
   else
+    Rails.logger.error(@article.errors.full_messages[0])
     flash[:error] = @article.errors.full_messages[0]
     render 'new'
   end
@@ -25,9 +27,11 @@ end
 def destroy
   @article = Article.find(params[:id])
   if @article.destroy
+    Rails.logger.info("Headline was successfully deleted.")
     flash[:success] = 'Headline was successfully deleted.'
     redirect_to articles_url
   else
+    Rails.logger.error(@article.errors.full_messages[0])
     flash[:error] = @article.errors.full_messages[0]
     redirect_to articles_url
   end
