@@ -27,7 +27,7 @@ class NewsApi
       }
     end
   rescue => e
-    # Rails.logger.error("Unexpected error: #{e.message}")
+    Rails.logger.error("Unexpected error: #{e.message}")
   end
   end
 end
