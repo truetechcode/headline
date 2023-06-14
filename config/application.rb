@@ -25,8 +25,8 @@ module Headline
 
     config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
     # log formatter
-    pid = Process.pid
     config.logger.formatter = proc do | severity, time, _progname, msg |
+      pid = Process.pid
       formatted_timestamp = time.strftime('%d-%m-%Y %H:%M:%S')
       "[#{formatted_timestamp}][PID: #{pid}] #{severity}: #{msg}\n"
     end
