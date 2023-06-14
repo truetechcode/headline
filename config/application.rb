@@ -23,6 +23,14 @@ module Headline
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
+    # log formatter
+    pid = Process.pid
+    config.logger.formatter = proc do | severity, time, _progname, msg |
+      formatted_timestamp = time.strftime('%d-%m-%Y %H:%M:%S')
+      "[#{formatted_timestamp}][PID: #{pid}] #{severity}: #{msg}\n"
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
