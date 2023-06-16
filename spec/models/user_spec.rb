@@ -20,6 +20,13 @@ RSpec.describe User, type: :model do
       expect(user.save).to be_falsey
     end
 
+    it 'does not create a new user without unique email attribute' do
+      create(:user, email: 'test@example.com')
+      user = build(:user, email: 'test@example.com')
+
+      expect(user.save).to be_falsey
+    end
+
     it 'does not create a new user with mismatch password attribute' do
       user = build(:user, password: nil)
 
