@@ -10,7 +10,7 @@ RSpec.describe "Users", type: :request do
       expect(response.body).to include('Full name')
       expect(response.body).to include('Email')
       expect(response.body).to include('Password')
-      expect(response.body).to include('Country Code')
+      expect(response.body).to include('Country')
       expect(response.body).to include('Password')
       expect(response.body).to include('Register')
     end
