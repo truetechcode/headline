@@ -11,9 +11,14 @@ class NewsApi
 
   def call
     begin
-    api_key = Rails.application.credentials.news_api[:api_key]
+    api_key = ENV['NEWSAPI_KEY']
     response = self.class.get('/v2/top-headlines', query: { country: @country, apiKey: api_key })
     data = JSON.parse(response.body)
+
+    if data['status'] == "error"
+      raise StandardError.new "#{response.code}: #{response.message}"
+    end
+
     live_articles = data['articles'].map do |article|
       {
         source: article['source']['name'],
@@ -27,7 +32,7 @@ class NewsApi
       }
     end
   rescue => e
-    Rails.logger.error("Unexpected error: #{e.message}")
+    Rails.logger.error("NewsApi error: #{e.message}")
   end
   end
 end
