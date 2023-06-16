@@ -7,9 +7,8 @@ class User < ApplicationRecord
   before_save :create_remember_token
 
   validates :name, presence: true
-  validates :email, presence: true
   validates :country_code, presence: true
-
+  validates_uniqueness_of :email, presence: true
   validates_length_of :password, minimum: 5, presence: true
 
   private
