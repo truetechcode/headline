@@ -9,11 +9,19 @@ class UsersController < ApplicationController
       sign_in @user
       Rails.logger.info("User successfully registered")
       flash[:success] = "User successfully registered"
-      redirect_to root_path
+
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { render json: { message: 'User successfully registered', user: @user }, status: :created }
+      end
     else
       Rails.logger.error(@user.errors.full_messages[0])
       flash[:error] = @user.errors.full_messages.join || "Something went wrong"
-      render 'new'
+
+      respond_to do |format|
+        format.html { render 'new' }
+        format.json { render json: { message: @user.errors.full_messages.join }, status: :unprocessable_entity  }
+      end
     end
   end
 
