@@ -33,4 +33,9 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+/config/credentials/*
+
 /config/credentials/development.key
+
+/config/credentials.yml.enc
+/.env
