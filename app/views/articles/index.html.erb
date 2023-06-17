@@ -1,6 +1,6 @@
 <div class="grid grid-cols-2 gap-4">
   <div>
-    <h1 class="text-4xl font-bold text-gray-500">Live Headlines</h1>
+    <h1 class="text-4xl font-bold text-gray-500">Headlines</h1>
     <%= form_with url: articles_path, method: :get, class: 'max-w-md mx-auto' do |f| %>
       <div>
         <%= f.country_select :country, { selected: @country_code.upcase }, { include_blank: 'Select a country' }, { class: 'form-input' } %>
