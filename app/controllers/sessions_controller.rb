@@ -7,17 +7,34 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(session_params[:password])
       sign_in @user
       flash[:success] = "Logged in successfully."
-      redirect_to root_path
+
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { render json: { message: 'Logged in successfully', user: @user }, status: :ok, cookies: { remember_token: {
+          value: @user.remember_token,
+          httponly: true,
+          secure: Rails.env.production?,
+          expires: 1.week.from_now
+        } } }
+      end
     else
       flash.now[:error] = "Invalid email or password."
-      render :new
+
+      respond_to do |format|
+        format.html { render 'new' }
+        format.json { render json: { error: "Invalid email or password." }, status: :unprocessable_entity  }
+      end
     end
   end
 
   def destroy
     sign_out
     flash[:success] = "Logged out successfully."
-    redirect_to root_path
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { render json: { message: 'Logged out successfully' } }
+    end
   end
 
   private

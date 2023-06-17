@@ -24,7 +24,10 @@ module SessionsHelper
   def signed_in_user
     unless signed_in?
       store_location
-      redirect_to new_session_url, success: "Please sign in."
+      respond_to do |format|
+        format.html { redirect_to new_session_url, flash: { success: "Please sign in." } }
+        format.json { render json: { error: "Please sign in." }, status: :unauthorized }
+      end
     end
   end
 
