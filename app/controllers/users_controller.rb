@@ -15,12 +15,12 @@ class UsersController < ApplicationController
         format.json { render json: { message: 'User successfully registered', user: @user }, status: :created }
       end
     else
-      Rails.logger.error(@user.errors.full_messages[0])
+      Rails.logger.error(@user.errors.full_messages.join)
       flash[:error] = @user.errors.full_messages.join || "Something went wrong"
 
       respond_to do |format|
         format.html { render 'new' }
-        format.json { render json: { message: @user.errors.full_messages.join }, status: :unprocessable_entity  }
+        format.json { render json: { error: @user.errors.full_messages.join }, status: :unprocessable_entity  }
       end
     end
   end
