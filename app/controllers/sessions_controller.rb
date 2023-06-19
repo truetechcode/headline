@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
-  def new
-  end
+  def new; end
 
   def create
     @user = User.find_by(email: session_params[:email])
@@ -10,19 +9,21 @@ class SessionsController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to root_path }
-        format.json { render json: { message: 'Logged in successfully', user: @user }, status: :ok, cookies: { remember_token: {
-          value: @user.remember_token,
-          httponly: true,
-          secure: Rails.env.production?,
-          expires: 1.week.from_now
-        } } }
+        format.json do
+          render json: { message: "Logged in successfully", user: @user }, status: :ok, cookies: { remember_token: {
+            value: @user.remember_token,
+            httponly: true,
+            secure: Rails.env.production?,
+            expires: 1.week.from_now
+          } }
+        end
       end
     else
       flash.now[:error] = "Invalid email or password."
 
       respond_to do |format|
-        format.html { render 'new' }
-        format.json { render json: { error: "Invalid email or password." }, status: :unprocessable_entity  }
+        format.html { render "new" }
+        format.json { render json: { error: "Invalid email or password." }, status: :unprocessable_entity }
       end
     end
   end
@@ -33,7 +34,7 @@ class SessionsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to root_path }
-      format.json { render json: { message: 'Logged out successfully' } }
+      format.json { render json: { message: "Logged out successfully" } }
     end
   end
 

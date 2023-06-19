@@ -9,8 +9,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true
   validates :country_code, presence: true
-  validates_uniqueness_of :email
-  validates_length_of :password, minimum: 5, presence: true
+  validates :email, uniqueness: true
+  validates :password, length: { minimum: 5, presence: true }
 
   private
 

@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def api_request?
     request.format.json?
   end
