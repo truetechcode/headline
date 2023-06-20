@@ -27,16 +27,18 @@ end
   private
 
 def data_mapper(data)
-  data.map do |article|
-    {
-      source: article["source"]["name"],
-      author: article["author"],
-      title: article["title"],
-      description: article["description"],
-      url: article["url"],
-      url_to_image: article["urlToImage"],
-      publish_at: article["publishedAt"],
-      content: article["content"]
-    }
-  end
+  data.map { |article| map_article_data(article) }
+end
+
+def map_article_data(article)
+  {
+    source: article["source"]["name"],
+    author: article["author"],
+    title: article["title"],
+    description: article["description"],
+    url: article["url"],
+    url_to_image: article["urlToImage"],
+    publish_at: article["publishedAt"],
+    content: article["content"]
+  }
 end

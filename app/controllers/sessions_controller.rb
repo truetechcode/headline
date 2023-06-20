@@ -30,14 +30,19 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path }
       format.json do
-        render json: { message: "Logged in successfully", user: @user }, status: :ok, cookies: { remember_token: {
-          value: @user.remember_token,
-          httponly: true,
-          secure: Rails.env.production?,
-          expires: 1.week.from_now
-        } }
+        render json: { message: "Logged in successfully", user: @user }, status: :ok,
+               cookies: { remember_token: token_hash }
       end
     end
+  end
+
+  def token_hash
+    {
+      value: @user.remember_token,
+      httponly: true,
+      secure: Rails.env.production?,
+      expires: 1.week.from_now
+    }
   end
 
   def handle_failed_response
