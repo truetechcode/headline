@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   has_secure_password
-  has_many :articles
+  has_many :articles, dependent: :destroy
 
   before_save { |user| user.email = email.downcase if user.email.present? }
   before_save { |user| user.country_code = country_code.downcase }
