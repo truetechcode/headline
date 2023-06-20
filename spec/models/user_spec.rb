@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   describe "registration" do
     it "creates a new user with valid attributes" do
       user = build(:user)

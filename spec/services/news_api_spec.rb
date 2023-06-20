@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe NewsApi do
@@ -26,7 +28,7 @@ RSpec.describe NewsApi do
         }
       ]
 
-      allow_any_instance_of(NewsApi).to receive(:call).and_return(
+      allow_any_instance_of(described_class).to receive(:call).and_return(
         status: 200,
         body: {
           status: "ok",
@@ -36,7 +38,7 @@ RSpec.describe NewsApi do
         headers: { "Content-Type": "application/json" }
       )
 
-      news_service = NewsApi.new("us")
+      news_service = described_class.new("us")
       response = news_service.call
       articles = JSON.parse(response[:body])["articles"]
 
@@ -48,7 +50,7 @@ RSpec.describe NewsApi do
     end
 
     it "returns an empty array if the API response has no articles" do
-      allow_any_instance_of(NewsApi).to receive(:call).and_return(
+      allow_any_instance_of(described_class).to receive(:call).and_return(
         status: 200,
         body: {
           status: "ok",
@@ -58,7 +60,7 @@ RSpec.describe NewsApi do
         headers: { "Content-Type": "application/json" }
       )
 
-      news_service = NewsApi.new("us")
+      news_service = described_class.new("us")
       response = news_service.call
       articles = JSON.parse(response[:body])["articles"]
       expect(articles).to be_an(Array)
@@ -66,12 +68,12 @@ RSpec.describe NewsApi do
     end
 
     it "handles API errors and returns nil" do
-      allow_any_instance_of(NewsApi).to receive(:call).and_return(
+      allow_any_instance_of(described_class).to receive(:call).and_return(
         status: 500,
         body: "Internal Server Error"
       )
 
-      news_service = NewsApi.new("us")
+      news_service = described_class.new("us")
       response = news_service.call
       articles = response[:body]["articles"]
 

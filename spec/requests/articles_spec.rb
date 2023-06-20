@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe "Articles", type: :request do
+RSpec.describe "Articles" do
   before do
     @articles = [
       {
@@ -80,12 +82,12 @@ RSpec.describe "Articles", type: :request do
     context "with valid attributes" do
       before do
         create(:user)
-        article_attributes = FactoryBot.attributes_for(:article)
+        article_attributes = attributes_for(:article)
         post articles_path, params: { article: article_attributes }
       end
 
       it "creates a new article" do
-        new_record = Article.last
+        Article.last
         expect(Article.count).to eq(1)
       end
 
@@ -113,7 +115,7 @@ RSpec.describe "Articles", type: :request do
   end
 
   describe "DELETE /articles" do
-    let!(:article) { FactoryBot.create(:article) }
+    let!(:article) { create(:article) }
 
     before do
       @article = create(:article, user: User.last)

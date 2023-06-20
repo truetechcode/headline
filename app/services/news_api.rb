@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "httparty"
 
 class NewsApi
@@ -16,7 +18,7 @@ class NewsApi
 
     raise StandardError, "#{response.code}: #{response.message}" if data["status"] == "error"
 
-    live_articles = data["articles"].map do |article|
+    data["articles"].map do |article|
       {
         source: article["source"]["name"],
         author: article["author"],

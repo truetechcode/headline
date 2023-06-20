@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe Article, type: :model do
+RSpec.describe Article do
   describe "validation" do
     it "creates a new article with a valid attributes" do
       article = build(:article)

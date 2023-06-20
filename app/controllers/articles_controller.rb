@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticlesController < ApplicationController
   before_action :signed_in_user
 
@@ -39,7 +41,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find_by(id: params[:id])
-    if !@article.nil? and @article.destroy
+    if !@article.nil? && @article.destroy
       Rails.logger.info("Headline was successfully deleted.")
       flash[:success] = "Headline was successfully deleted."
 

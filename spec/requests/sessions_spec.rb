@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe "Sessions", type: :request do
+RSpec.describe "Sessions" do
   describe "GET /new" do
     it "returns http success" do
       get "/sessions/new"
