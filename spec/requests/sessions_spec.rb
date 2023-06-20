@@ -48,10 +48,6 @@ RSpec.describe "Sessions" do
     let(:instance) { NewsApi.new("us") }
 
     before do
-      #   allow(NewsApi).to receive(:call).and_return(articles)
-      # end
-
-      # let(:articles) do
       stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=cb05c508a3cf4dccb3c52178635d0ebc&country=us")
         .with(
           headers: {
