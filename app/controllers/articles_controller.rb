@@ -18,54 +18,68 @@ class ArticlesController < ApplicationController
   def new; end
 
   def create
-    @article = current_user.articles.build(articles_params)
-    @article.user = current_user
-    if @article.save
-      Rails.logger.info("Headline successfully saved")
-      flash[:success] = "Headline successfully saved"
-
-      respond_to do |format|
-        format.html { redirect_to root_path }
-        format.json { render json: { message: "Headline successfully saved", headline: @article }, status: :created }
-      end
+    @article = build_article
+    if save_article
+      handle_successful("saved", :created)
     else
-      Rails.logger.error(@article.errors.full_messages.join)
-      flash[:error] = @article.errors.full_messages.join
-
-      respond_to do |format|
-        format.html { render "new" }
-        format.json { render json: { error: @article.errors.full_messages.join }, status: :unprocessable_entity }
-      end
+      handle_failed
     end
   end
 
   def destroy
     @article = Article.find_by(id: params[:id])
     if !@article.nil? && @article.destroy
-      Rails.logger.info("Headline was successfully deleted.")
-      flash[:success] = "Headline was successfully deleted."
 
-      respond_to do |format|
-        format.html { redirect_to articles_url }
-        format.json { render json: { message: "Headline successfully deleted", headline: nil } }
-      end
+      handle_successful("deleted", nil)
+
     elsif @article.nil?
-      Rails.logger.error("Headline not found")
-      flash[:error] = "Headline not found"
-
-      respond_to do |format|
-        format.html { redirect_to articles_url }
-        format.json { render json: { error: "Headline not found" }, status: :unprocessable_entity }
-      end
+      handle_not_found
     else
-      Rails.logger.error(@article.errors.full_messages.join)
-      flash[:error] = @article.errors.full_messages.join
-
-      respond_to do |format|
-        format.html { redirect_to articles_url }
-        format.json { render json: { error: @article.errors.full_messages.join }, status: :unprocessable_entity }
-      end
+      handle_failed
     end
+  end
+
+  private
+
+  def build_article
+    current_user.articles.build(articles_params).tap do |article|
+      article.user = current_user
+    end
+  end
+
+  def save_article
+    @article.save
+  end
+
+  def handle_successful(item, status)
+    Rails.logger.info("Headline successfully #{item}")
+    flash[:success] = "Headline successfully #{item}"
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { render json: { message: "Headline successfully #{item}", headline: @article }, status: }
+    end
+  end
+
+  def handle_failed
+    log_error @article.errors.full_messages.join
+    respond_to do |format|
+      format.html { render "new" }
+      format.json { render json: { error: @article.errors.full_messages.join }, status: :unprocessable_entity }
+    end
+  end
+
+  def handle_not_found
+    log_error "Headline not found"
+    respond_to do |format|
+      format.html { redirect_to articles_url }
+      format.json { render json: { error: "Headline not found" }, status: :unprocessable_entity }
+    end
+  end
+
+  def log_error(message)
+    Rails.logger.error(message)
+    flash[:error] = message
   end
 
   protected

@@ -18,19 +18,25 @@ class NewsApi
 
     raise StandardError, "#{response.code}: #{response.message}" if data["status"] == "error"
 
-    data["articles"].map do |article|
-      {
-        source: article["source"]["name"],
-        author: article["author"],
-        title: article["title"],
-        description: article["description"],
-        url: article["url"],
-        url_to_image: article["urlToImage"],
-        publish_at: article["publishedAt"],
-        content: article["content"]
-      }
-    end
-  rescue StandardError => e
-    Rails.logger.error("NewsApi error: #{e.message}")
+    data_mapper data["articles"]
+  end
+rescue StandardError => e
+  Rails.logger.error("NewsApi error: #{e.message}")
+end
+
+  private
+
+def data_mapper(data)
+  data.map do |article|
+    {
+      source: article["source"]["name"],
+      author: article["author"],
+      title: article["title"],
+      description: article["description"],
+      url: article["url"],
+      url_to_image: article["urlToImage"],
+      publish_at: article["publishedAt"],
+      content: article["content"]
+    }
   end
 end
