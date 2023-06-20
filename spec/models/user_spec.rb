@@ -37,10 +37,14 @@ RSpec.describe User do
   end
 
   describe "remember token" do
-    it "creates a new remember token when a user is saved" do
-      user = build(:user)
-      expect(user.save).to be_truthy
+    let(:user) { build(:user) }
 
+    it "saves a new user" do
+      expect(user.save).to be_truthy
+    end
+
+    it "creates a new remember token when a user is saved" do
+      user.save
       expect(user.remember_token).not_to be_nil
     end
   end
