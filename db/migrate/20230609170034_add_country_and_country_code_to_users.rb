@@ -2,9 +2,13 @@
 
 class AddCountryAndCountryCodeToUsers < ActiveRecord::Migration[7.0]
   def change
-    add_column :users, :country, :string
-    add_column :users, :country_code, :string
-    add_index  :users, :country
-    add_index  :users, :country_code
+    safety_assured do
+      bulk_change_table :users, bulk: true do |t|
+        t.column :country, :string
+        t.column :country_code, :string
+        t.index :country
+        t.index :country_code
+      end
+    end
   end
 end
