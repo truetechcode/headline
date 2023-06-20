@@ -45,9 +45,43 @@ RSpec.describe "Sessions" do
         }
       ]
     end
+    let(:instance) { NewsApi.new("us") }
 
     before do
-      allow_any_instance_of(NewsApi).to receive(:call).and_return(articles)
+      #   allow(NewsApi).to receive(:call).and_return(articles)
+      # end
+
+      # let(:articles) do
+      stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=#{ENV.fetch('NEWSAPI_KEY', nil)}&country=us")
+        .with(
+          headers: {
+            "Accept" => "*/*",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "User-Agent" => "Ruby"
+          }
+        )
+        .to_return(
+          status: 200,
+          body: {
+            status: "ok",
+            totalResults: 0,
+            articles:
+          }.to_json,
+          headers: { "Content-Type": "application/json" }
+        )
+
+      allow(instance).to receive(:call).and_return(
+        status: 200,
+        body: {
+          status: "ok",
+          totalResults: 0,
+          articles:
+        }.to_json,
+        headers: { "Content-Type": "application/json" }
+      )
+
+      response = instance.call
+      JSON.parse(response[:body])["articles"]
     end
 
     context "with valid credentials" do

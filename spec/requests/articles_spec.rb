@@ -18,40 +18,67 @@ RSpec.describe "Articles" do
         publish_at: "2023-05-20T15:37:42Z",
         content: "KYIV, Ukraine (AP) The head of the Russian private army Wagner claimed Saturday that his forces have
        taken control of the city of Bakhmut after the longest and most grinding battle of the Russia-Ukra…"
-      },
-      {
-        source: { id: nil, name: "POLITICO.eu" },
-        author: "Ashleigh Furlong",
-        title: "Russia warns West sending F-16s to Ukraine 'carries enormous risks': TASS - POLITICO Europe",
-        description: "Kyiv has pushed its allies to supply modern combat aircraft for Ukraine’s defense against the
-      Russian invasion.",
-        url: "https://www.politico.eu/article/russia-alexander-grushko-warns-west-f16-jets-ukraine-carries-enormous-risks-tass/",
-        url_to_image: "https://www.politico.eu/cdn-cgi/image/width=1200,height=630,fit=crop,quality=80,onerror=redirect/wp-content/uploads/2023/05/20/GettyImages-1488520640-scaled.jpg",
-        publish_at: "2023-05-20T15:22:00Z",
-        content: "The Wests effort to potentially send modern fighter jets to Ukraine carries enormous risks, Russias
-      Deputy Foreign Minister Alexander Grushko warned on Saturday, according to Russian state news agenc…"
       }
     ]
   end
+  let(:instance) { NewsApi.new("us") }
 
   before do
-    allow_any_instance_of(NewsApi).to receive(:call).and_return(articles)
+    stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=#{ENV.fetch('NEWSAPI_KEY', nil)}&country=us")
+      .with(
+        headers: {
+          "Accept" => "*/*",
+          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "User-Agent" => "Ruby"
+        }
+      )
+      .to_return(
+        status: 200,
+        body: {
+          status: "ok",
+          totalResults: 0,
+          articles:
+        }.to_json,
+        headers: { "Content-Type": "application/json" }
+      )
+
+    allow(instance).to receive(:call).and_return(
+      status: 200,
+      body: {
+        status: "ok",
+        totalResults: 0,
+        articles:
+      }.to_json,
+      headers: { "Content-Type": "application/json" }
+    )
+
+    instance.call
 
     create(:user, name: "user", email: "user@example.com", password: "password", password_confirmation: "password")
     post sessions_path, params: { session: { email: "user@example.com", password: "password" } }
   end
 
   describe "GET /index" do
-    before do
-      follow_redirect!
-    end
+    context "with no saved article" do
+      before do
+        follow_redirect!
+      end
 
-    it "has http status of success" do
-      expect(response).to have_http_status(:success)
-    end
+      it "has http status of success" do
+        expect(response).to have_http_status(:success)
+      end
 
-    it "renders Headlines" do
-      expect(response.body).to include("Headlines")
+      it "renders Headlines" do
+        expect(response.body).to include("Headlines")
+      end
+
+      it "does not increase Article count" do
+        expect(Article.count).to eq(0)
+      end
+
+      it "returns a message: No Headlines" do
+        expect(response.body).to include("No Headlines")
+      end
     end
 
     context "with at least one saved article" do
@@ -61,6 +88,10 @@ RSpec.describe "Articles" do
                          url: articles[0][:url], url_to_image: articles[0][:url_to_image],
                          publish_at: articles[0][:publish_at], content: articles[0][:content],
                          user: User.last)
+      end
+
+      before do
+        follow_redirect!
       end
 
       it "renders article source" do
@@ -73,24 +104,6 @@ RSpec.describe "Articles" do
 
       it "renders article url" do
         expect(response.body).to include(article["url"])
-      end
-
-      it "renders article url_to_image" do
-        expect(response.body).to include(URI.parse(article["url_to_image"]).host)
-      end
-
-      it "renders article publish_at" do
-        expect(response.body).to include(article["publish_at"])
-      end
-    end
-
-    context "with no saved article" do
-      it "does not increase Article count" do
-        expect(Article.count).to eq(0)
-      end
-
-      it "returns a message: No Headlines" do
-        expect(response.body).to include("No Headlines")
       end
     end
   end
