@@ -46,8 +46,11 @@ RSpec.describe "Articles" do
       follow_redirect!
     end
 
-    it "renders Headlines" do
+    it "has http status of success" do
       expect(response).to have_http_status(:success)
+    end
+
+    it "renders Headlines" do
       expect(response.body).to include("Headlines")
     end
 
@@ -82,8 +85,11 @@ RSpec.describe "Articles" do
     end
 
     context "with no saved article" do
-      it "returns a message: No Headlines" do
+      it "does not increase Article count" do
         expect(Article.count).to eq(0)
+      end
+
+      it "returns a message: No Headlines" do
         expect(response.body).to include("No Headlines")
       end
     end
@@ -102,24 +108,36 @@ RSpec.describe "Articles" do
         expect(Article.count).to eq(1)
       end
 
-      it "redirects to the correct path" do
+      it "have http status of redirect" do
         expect(response).to have_http_status(:redirect)
+      end
+
+      it "redirects to the correct path" do
         expect(response).to redirect_to(root_path)
       end
 
       it "returns a successful response" do
         follow_redirect!
         expect(response).to have_http_status(:success)
+      end
+
+      it "renders 'Headline successfully saved'" do
+        follow_redirect!
         expect(response.body).to include("Headline successfully saved")
       end
     end
 
     context "with invalid attributes" do
+      it "does not create article" do
+        article = build(:article, user: nil)
+
+        expect(article.save).to be_falsey
+      end
+
       it "returns an error for no user" do
         article = build(:article, user: nil)
         article.save
 
-        expect(article).not_to be_valid
         expect(article.errors[:user]).to include("must exist")
       end
     end

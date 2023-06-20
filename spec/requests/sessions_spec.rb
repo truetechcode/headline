@@ -62,7 +62,9 @@ RSpec.describe "Sessions" do
 
       it "sets a success notice" do
         expect(flash[:success]).to eq("Logged in successfully.")
+      end
 
+      it "renders 'Logged in successfully.'" do
         follow_redirect!
 
         expect(response.body).to include("Logged in successfully.")

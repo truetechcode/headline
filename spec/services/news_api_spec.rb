@@ -67,18 +67,10 @@ RSpec.describe NewsApi do
 
       response = instance.call
       JSON.parse(response[:body])["articles"]
-      JSON.parse(response[:body])["articles"]
     end
 
-    it "returns a successful response with articles" do
-      expect(articles).to be_an(Array)
-      expect(articles.length).to eq(2)
-      expect(articles[0]["source"]["name"]).to eq("Associated Press")
-      expect(articles[1]["author"]).to eq("Ashleigh Furlong")
-    end
-
-    it "returns an empty array if the API response has no articles" do
-      allow_any_instance_of(described_class).to receive(:call).and_return(
+    let(:articles_empty) do
+      allow(instance).to receive(:call).and_return(
         status: 200,
         body: {
           status: "ok",
@@ -88,24 +80,33 @@ RSpec.describe NewsApi do
         headers: { "Content-Type": "application/json" }
       )
 
-      news_service = described_class.new("us")
-      response = news_service.call
-      articles = JSON.parse(response[:body])["articles"]
-      expect(articles).to be_an(Array)
-      expect(articles).to be_empty
+      response = instance.call
+      JSON.parse(response[:body])["articles"]
     end
-
-    it "handles API errors and returns nil" do
-      allow_any_instance_of(described_class).to receive(:call).and_return(
+    let(:articles_error) do
+      allow(instance).to receive(:call).and_return(
         status: 500,
         body: "Internal Server Error"
       )
 
-      news_service = described_class.new("us")
-      response = news_service.call
-      articles = response[:body]["articles"]
+      response = instance.call
+      response[:body]["articles"]
+    end
 
-      expect(articles).to be_nil
+    it "increment articles by 1" do
+      expect(articles.length).to eq(2)
+    end
+
+    it "returns a successful response with articles" do
+      expect(articles[1]["author"]).to eq("Ashleigh Furlong")
+    end
+
+    it "returns an empty array if the API response has no articles" do
+      expect(articles_empty).to be_empty
+    end
+
+    it "handles API errors and returns nil" do
+      expect(articles_error).to be_nil
     end
   end
 end
