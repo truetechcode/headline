@@ -20,11 +20,11 @@ RSpec.describe "Sessions" do
         {
           source: { id: "associated-press", name: "Associated Press" },
           author: "Susie Blann",
-          title: "Russian private army head claims control of Bakhmut but Ukraine says fighting continues - The Associated
-         Press",
-          description: "KYIV, Ukraine (AP) — The head of the Russian private army Wagner claimed Saturday that his forces
-        have taken control of the city of Bakhmut after the longest and most grinding battle of the Russia-Ukraine war,
-        but Ukrainian defense officials denied it.",
+          title: "Russian private army head claims control of Bakhmut but Ukraine says fighting continues - The
+          Associated Press",
+          description: "KYIV, Ukraine (AP) — The head of the Russian private army Wagner claimed Saturday that his
+          forces have taken control of the city of Bakhmut after the longest and most grinding battle of the
+          Russia-Ukraine war, but Ukrainian defense officials denied it.",
           url: "https://apnews.com/article/bakhmut-russia-ukraine-wagner-prigozhin-da2fc05b818b3dcc39decd40b17d2d8b",
           url_to_image: "https://storage.googleapis.com/afs-prod/media/8dd9fdbbef9d4727a480b275e08fe599/2879.webp",
           publish_at: "2023-05-20T15:37:42Z",
