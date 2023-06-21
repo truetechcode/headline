@@ -25,10 +25,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html do
-        flash[:success] = "User successfully registered"
+        flash[:success] = t("flash.success.user")
         redirect_to root_path
       end
-      format.json { render json: { message: "User successfully registered", user: @user }, status: :created }
+      format.json { render json: { message: t("flash.success.user"), user: @user }, status: :created }
     end
   end
 
