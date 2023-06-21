@@ -37,7 +37,7 @@ RSpec.describe NewsApi do
     let(:instance) { described_class.new("us") }
 
     let(:articles) do
-      stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=#{ENV.fetch('NEWSAPI_KEY', nil)}&country=us")
+      stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=#{ENV.fetch(:NEWSAPI_KEY, nil)}&country=us")
         .with(
           headers: {
             "Accept" => "*/*",
