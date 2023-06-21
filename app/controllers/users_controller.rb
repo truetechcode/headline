@@ -22,10 +22,12 @@ class UsersController < ApplicationController
 
   def handle_successful_response
     Rails.logger.info("User successfully registered")
-    flash[:success] = "User successfully registered"
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html do
+        flash[:success] = "User successfully registered"
+        redirect_to root_path
+      end
       format.json { render json: { message: "User successfully registered", user: @user }, status: :created }
     end
   end
@@ -39,8 +41,8 @@ class UsersController < ApplicationController
   end
 
   def log_error(message)
-    Rails.logger.error(message)
     flash[:error] = message
+    Rails.logger.error(message)
   end
 
   protected
