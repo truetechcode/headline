@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This is a ArticlesController responsible for managing article-related actions.
 class ArticlesController < ApplicationController
   before_action :signed_in_user
 
