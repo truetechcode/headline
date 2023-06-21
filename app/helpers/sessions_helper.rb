@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This is a module that provides helper methods for sessions.
 module SessionsHelper
   def sign_in(user)
     cookies.permanent[:remember_token] = user.remember_token

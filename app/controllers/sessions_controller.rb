@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This is a SessionsController responsible for managing session-related actions.
 class SessionsController < ApplicationController
   def new; end
 

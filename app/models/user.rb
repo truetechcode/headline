@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Represents a user in the application.
 class User < ApplicationRecord
   has_secure_password
   has_many :articles, dependent: :destroy

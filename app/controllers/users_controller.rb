@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This is a UsersController responsible for managing user-related actions.
 class UsersController < ApplicationController
   def new
     @user = User.new
