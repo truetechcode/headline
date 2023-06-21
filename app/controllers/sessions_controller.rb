@@ -18,10 +18,10 @@ class SessionsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        flash[:success] = "Logged out successfully."
+        flash[:success] = t("flash.success.session.loggedout")
         redirect_to root_path
       end
-      format.json { render json: { message: "Logged out successfully" } }
+      format.json { render json: { message: t("flash.success.session.loggedout") } }
     end
   end
 
@@ -30,12 +30,12 @@ class SessionsController < ApplicationController
   def handle_successful_response
     respond_to do |format|
       format.html do
-        flash[:success] = "Logged in successfully"
+        flash[:success] = t("flash.success.session.loggedin")
         redirect_to root_path
       end
       format.json do
         cookies[:remember_token] = token_hash
-        render json: { message: "Logged in successfully", user: @user }, status: :ok
+        render json: { message: t("flash.success.session.loggedin"), user: @user }, status: :ok
       end
     end
   end
@@ -50,10 +50,10 @@ class SessionsController < ApplicationController
   end
 
   def handle_failed_response
-    flash.now[:error] = "Invalid email or password."
+    flash.now[:error] = t("flash.fail.session")
     respond_to do |format|
       format.html { render "new" }
-      format.json { render json: { error: "Invalid email or password." }, status: :unprocessable_entity }
+      format.json { render json: { error: t("flash.fail.session") }, status: :unprocessable_entity }
     end
   end
 
