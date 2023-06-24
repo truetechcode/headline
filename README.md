@@ -133,6 +133,28 @@ The Headlines application provides the following API endpoints for user registra
 
 - **Endpoint**: `DELETE /api/articles/:id`
 
+## TODO
+
+1. Implement Stimulus.js for Responsive Interactions:
+   - Integrate Stimulus.js into the Headlines application.
+   - Update the country select functionality to use Stimulus.js for a more responsive and dynamic user experience.
+   - Enhance the save and delete actions for headlines using Stimulus.js to perform the operations in-place without page refresh.
+
+2. Background Job for NewsApi Call:
+   - Move the NewsApi call to a background job to offload the processing from the main request-response cycle.
+   - Configure the background job to run periodically or on-demand to update the headlines data from the NewsApi.
+
+3. Replace has_secure_password with Devise for Authentication:
+   - Integrate Devise gem into the Headlines application.
+   - Implement token based API authentication strategy.
+
+4. CI/CD Pipeline:
+   - Set up a Continuous Integration and Continuous Deployment (CI/CD) pipeline for the Headlines application.
+
+5. Additional Enhancements:
+   - Implement pagination or infinite scrolling for the headlines index page to improve performance and user experience.
+   - Implement caching strategies to optimize API requests and improve overall application performance.
+
 ## Contributing
 
 If you want to contribute to the Headlines application, please follow these steps:
