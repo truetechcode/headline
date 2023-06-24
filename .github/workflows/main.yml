@@ -1,20 +1,21 @@
 name: "CI"
 on:
+  push:
+    branches: [ "dev" ]
   pull_request:
     branches: [ "main" ]
 env:
-  RUBY: '3.2.1'    
+  RUBY: '3.2.1'
 jobs:
   test:
     runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:12-alpine
-        ports:
-          - "5432:5432"
+        ports: ["5432:5432"]
         env:
-          DB_HOST: localhost
-          DB_PORT: 5432
+          # DB_HOST: localhost
+          # DB_PORT: 5432
           DB_NAME: headline_test
 #           DB_USERNAME: headline
 #           DB_PASSWORD: password
@@ -29,7 +30,8 @@ jobs:
         with:
           bundler-cache: true
       - name: Set up database
-        run: bin/rails db:create db:migrate
+        # run: bin/rails db:create db:migrate
+        run: bin/rails db:schema:load
       - name: Run tests
         run: bundle exec rspec
 
@@ -44,8 +46,8 @@ jobs:
           bundler-cache: true
       # Add or replace any other lints here
 #       - name: Security audit dependencies
-#         run: bin/bundler-audit --update
+#         run: bundle exec bundler-audit --update
 #       - name: Security audit application code
-#         run: bin/brakeman -q -w2
+#         run: bundle exec brakeman -q -w2
       - name: Lint Ruby files
-        run: bin/rubocop --parallel
+        run: bundle exec rubocop --parallel
