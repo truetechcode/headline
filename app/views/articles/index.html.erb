@@ -21,7 +21,9 @@
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><%= article[:description] %></p>
               <div class="flex justify-between ">
                 <p class="card-text text-gray-500"><%= article[:source] %></p>
-                <p class="card-text text-gray-500"><%= time_ago_in_words(article[:publish_at]) + " ago" %></p>
+                <% if article[:publish_at] %>
+                  <p class="card-text text-gray-500"><%= time_ago_in_words(article[:publish_at]) + " ago" %></p>
+                <% end %>
               </div>
               <div class="flex justify-between text-center">
                 <%= link_to 'Save', articles_path(article: article), data: {turbo_method: :post}, class: 'inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800' %>
