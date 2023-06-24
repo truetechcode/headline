@@ -14,11 +14,11 @@ jobs:
         image: postgres:12-alpine
         ports: ["5432:5432"]
         env:
-          # DB_HOST: localhost
-          # DB_PORT: 5432
+          DB_HOST: localhost
+          DB_PORT: 5432
           DB_NAME: headline_test
-#           DB_USERNAME: headline
-#           DB_PASSWORD: password
+          DB_USERNAME: headline
+          DB_PASSWORD: password
     env:
       RAILS_ENV: test
       DATABASE_URL: "postgres://headline:password@localhost:5432/headline_test"
