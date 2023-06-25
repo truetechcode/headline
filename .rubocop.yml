@@ -18,6 +18,7 @@ AllCops:
     - "config/environments/development.rb"
     - "config/environments/production.rb"
     - "spec/spec_helper.rb"
+    - 'vendor/bundle/**/*'
 
 Style/StringLiterals:
   Description: Checks if uses of quotes match the configured preference.
