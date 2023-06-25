@@ -19,11 +19,6 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: headline
           POSTGRES_DB: headline_test
-          # DB_HOST: localhost
-          # DB_PORT: 5432
-          # DB_NAME: headline_test
-          # DB_USERNAME: headline
-          # DB_PASSWORD: password
     env:
       RAILS_ENV: test
       DATABASE_URL: "postgres://headline:postgres@localhost:5432/headline_test"
@@ -45,9 +40,6 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-#      - name: Install dependencies
-#        run: |
-#          yarn install --frozen-lockfile
 
       - name: Set up Node 14
         uses: actions/setup-node@v1
@@ -60,10 +52,10 @@ jobs:
           bundle install --jobs 4 --retry 3
           yarn install --frozen-lockfile
 
+      - name: Precompile asset
+        run: bundle exec rake assets:precompile
       - name: Set up database
         run: bundle exec rails db:setup
-        # run: bin/rails db:create db:migrate
-        # run: bin/rails db:schema:load
       - name: Run tests
         run: bundle exec rspec
 
