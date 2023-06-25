@@ -13,15 +13,15 @@ jobs:
       postgres:
         image: postgres:12-alpine
         ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         env:
-          # DB_HOST: localhost
-          # DB_PORT: 5432
-          DB_NAME: headline_test
-#           DB_USERNAME: headline
-#           DB_PASSWORD: password
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: headline
+          POSTGRES_DB: headline_test
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://headline:password@localhost:5432/headline_test"
+      DATABASE_URL: "postgres://headline:postgres@localhost:5432/headline_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,9 +29,33 @@ jobs:
         uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
         with:
           bundler-cache: true
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Set up Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        run: |
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          yarn install --frozen-lockfile
+
+      - name: Precompile asset
+        run: bundle exec rake assets:precompile
       - name: Set up database
-        # run: bin/rails db:create db:migrate
-        run: bin/rails db:schema:load
+        run: bundle exec rails db:setup
       - name: Run tests
         run: bundle exec rspec
 

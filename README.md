@@ -155,6 +155,16 @@ The Headlines application provides the following API endpoints for user registra
    - Implement pagination or infinite scrolling for the headlines index page to improve performance and user experience.
    - Implement caching strategies to optimize API requests and improve overall application performance.
 
+## Contributing
+
+If you want to contribute to the Headlines application, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Submit a pull request to the main repository.
+
 ## License
 
 The Headlines application is open-source and released under the [MIT License](https://opensource.org/licenses/MIT).

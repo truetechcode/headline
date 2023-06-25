@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -22,6 +24,14 @@ module Headline
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+
+    config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
+    # log formatter
+    config.logger.formatter = proc do |severity, time, _progname, msg|
+      pid = Process.pid
+      formatted_timestamp = time.strftime("%d-%m-%Y %H:%M:%S")
+      "[#{formatted_timestamp}][PID: #{pid}] #{severity}: #{msg}\n"
+    end
 
     # Configuration for the application, engines, and railties goes here.
     #

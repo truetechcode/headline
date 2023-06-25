@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -43,6 +45,8 @@ Rails.application.configure do
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+  config.log_level = :debug
 
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
