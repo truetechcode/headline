@@ -73,7 +73,11 @@ GEM
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
+    brakeman (6.0.0)
     builder (3.2.4)
+    bundler-audit (0.9.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     byebug (11.1.3)
     concurrent-ruby (1.2.2)
     countries (5.4.0)
@@ -238,6 +242,8 @@ GEM
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
+    ruby_audit (2.2.0)
+      bundler-audit (~> 0.9.0)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -279,6 +285,8 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
+  brakeman
+  bundler-audit
   byebug
   country_select (~> 8.0)
   database_cleaner-active_record
@@ -298,6 +306,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby_audit
   sprockets-rails
   stimulus-rails
   tailwindcss-rails
