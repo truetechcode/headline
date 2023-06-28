@@ -12,7 +12,7 @@ class NewsApi
   #
   # @param country [String] The country for which to retrieve top headlines.
   def initialize(country)
-    @country = country || current_user.country
+    @country = country
   end
 
   # Calls the News API to retrieve top headlines for the specified country.
@@ -26,27 +26,8 @@ class NewsApi
 
     raise StandardError, "#{response.code}: #{response.message}" if data["status"] == "error"
 
-    data_mapper data["articles"]
+    data["articles"].map { |article| ArticleDataMapper.map(article) }
   end
 rescue StandardError => e
   Rails.logger.error("NewsApi error: #{e.message}")
-end
-
-  private
-
-def data_mapper(data)
-  data.map { |article| map_article_data(article) }
-end
-
-def map_article_data(article)
-  {
-    source: article["source"]["name"],
-    author: article["author"],
-    title: article["title"],
-    description: article["description"],
-    url: article["url"],
-    url_to_image: article["urlToImage"],
-    publish_at: article["publishedAt"],
-    content: article["content"]
-  }
 end
