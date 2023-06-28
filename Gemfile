@@ -65,6 +65,7 @@ group :development, :test do
   gem "brakeman"
   gem "bundler-audit"
   gem "ruby_audit"
+  gem "reek"
 
   # Linting
   gem "rubocop", "~> 1.18", require: false
