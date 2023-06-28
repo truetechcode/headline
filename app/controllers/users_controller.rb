@@ -7,37 +7,38 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      sign_in @user
+    user = User.new(user_params)
+    if user.save
+      sign_in user
 
-      handle_successful_response
+      handle_successful_response user
 
     else
-      handle_failed
+      handle_failed user.errors.full_messages.join
 
     end
   end
 
   private
 
-  def handle_successful_response
+  def handle_successful_response(user)
     Rails.logger.info("User successfully registered")
 
     respond_to do |format|
+      message = t("flash.success.user")
       format.html do
-        flash[:success] = t("flash.success.user")
+        flash[:success] = message
         redirect_to root_path
       end
-      format.json { render json: { message: t("flash.success.user"), user: @user }, status: :created }
+      format.json { render json: { message:, user: }, status: :created }
     end
   end
 
-  def handle_failed
-    log_error @user.errors.full_messages.join
+  def handle_failed(message)
+    log_error message
     respond_to do |format|
       format.html { render "new" }
-      format.json { render json: { error: @user.errors.full_messages.join }, status: :unprocessable_entity }
+      format.json { render json: { error: message }, status: :unprocessable_entity }
     end
   end
 
