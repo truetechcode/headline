@@ -4,7 +4,12 @@ detectors:
   # You can disable smells completely
   IrresponsibleModule:
     enabled: false
-
+  NilCheck:
+    enabled: false
+  TooManyStatements:
+    enabled: false
+  UncommunicativeVariableName:
+    enabled: false
   # You can use filters to silence Reek warnings.
   # Either because you simply disagree with Reek (we are not the police) or
   # because you want to fix this at a later point in time.
