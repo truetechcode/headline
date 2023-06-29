@@ -65,13 +65,14 @@ group :development, :test do
   gem "brakeman"
   gem "bundler-audit"
   gem "ruby_audit"
-  gem "reek"
 
   # Linting
   gem "rubocop", "~> 1.18", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rails_best_practices"
+  gem "reek"
 end
 
 group :development do
