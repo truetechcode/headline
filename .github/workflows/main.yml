@@ -68,12 +68,11 @@ jobs:
         uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
         with:
           bundler-cache: true
-      # Add or replace any other lints here
-      - name: Security audit dependencies
-        run: bundle exec bundler-audit --update
-      - name: Security audit ruby code and gems
-        run: bundle exec ruby-audit check -n
-      - name: Security audit application code
-        run: bundle exec brakeman -q -w2
-      - name: Lint Ruby files
-        run: bundle exec rubocop --parallel
+      - name: Run linters
+        run: |
+          bundle exec rubocop --parallel
+          bundle exec reek app config lib
+          bundle exec bundler-audit --update
+          bundle exec ruby-audit check -n
+          bundle exec brakeman -q -w2
+          bundle exec rails_best_practices .

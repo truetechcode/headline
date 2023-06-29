@@ -71,6 +71,8 @@ group :development, :test do
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rails_best_practices"
+  gem "reek"
 end
 
 group :development do
