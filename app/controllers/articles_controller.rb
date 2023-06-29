@@ -18,8 +18,6 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def new; end
-
   def create
     article = build_article
     if article.save
