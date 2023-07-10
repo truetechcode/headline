@@ -67,7 +67,7 @@ group :development, :test do
   gem "ruby_audit"
 
   # Linting
-  gem "rubocop", "~> 1.18", require: false
+  gem "rubocop", ">= 1.53.0", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
@@ -83,4 +83,5 @@ end
 group :test do
   gem "database_cleaner-active_record"
   gem "webmock"
+  gem 'simplecov', require: false
 end
