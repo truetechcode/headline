@@ -3,24 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Articles" do
-  let(:articles) do
-    [
-      {
-        source: { id: "associated-press", name: "Associated Press" },
-        author: "Susie Blann",
-        title: "Russian private army head claims control of Bakhmut but Ukraine says fighting continues - The Associated
-       Press",
-        description: "KYIV, Ukraine (AP) — The head of the Russian private army Wagner claimed Saturday that his forces
-      have taken control of the city of Bakhmut after the longest and most grinding battle of the Russia-Ukraine war,
-      but Ukrainian defense officials denied it.",
-        url: "https://apnews.com/article/bakhmut-russia-ukraine-wagner-prigozhin-da2fc05b818b3dcc39decd40b17d2d8b",
-        url_to_image: "https://storage.googleapis.com/afs-prod/media/8dd9fdbbef9d4727a480b275e08fe599/2879.webp",
-        publish_at: "2023-05-20T15:37:42Z",
-        content: "KYIV, Ukraine (AP) The head of the Russian private army Wagner claimed Saturday that his forces have
-       taken control of the city of Bakhmut after the longest and most grinding battle of the Russia-Ukra…"
-      }
-    ]
-  end
+  let(:articles) { build_list(:populated_article, 1) }
+
   let(:instance) { NewsApi.new("us") }
 
   before do
@@ -83,7 +67,7 @@ RSpec.describe "Articles" do
 
     context "with at least one saved article" do
       let(:article) do
-        create(:article, source: articles[0][:source][:name], author: articles[0][:author],
+        create(:article, source: articles[0][:source], author: articles[0][:author],
                          title: articles[0][:title], description: articles[0][:description],
                          url: articles[0][:url], url_to_image: articles[0][:url_to_image],
                          publish_at: articles[0][:publish_at], content: articles[0][:content],
