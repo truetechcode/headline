@@ -12,12 +12,14 @@ Rails.application.routes.draw do
     end
   end
 
-  scope "/api", defaults: { format: :json } do
-    resources :users, only: [:create]
-    resources :sessions, only: %i[create destroy]
-    resources :articles, only: %i[create destroy index] do
-      collection do
-        get ":country", to: "articles#index", as: "api_country"
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :users, only: [:create]
+      resources :sessions, only: %i[create destroy]
+      resources :articles, only: %i[create destroy index] do
+        collection do
+          get ":country", to: "articles#index", as: "api_country"
+        end
       end
     end
   end
