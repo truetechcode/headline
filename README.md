@@ -1,5 +1,6 @@
 # Headlines Web Application
 ![example workflow](https://github.com/truetechcode/headline/actions/workflows/main.yml/badge.svg)
+[![Coverage](badge.svg)](https://github.com/truetechcode/headline)
 
 The Headlines web application allows users to view and save top news headlines for a chosen country. It utilizes the NewsApi to fetch the latest news data. The application supports both HTML and JSON distribution, and provides API endpoints for user registration, authentication, and managing saved articles.
 
