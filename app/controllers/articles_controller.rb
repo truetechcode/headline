@@ -10,18 +10,13 @@ class ArticlesController < ApplicationController
     news_service = NewsApi.new(country_code)
     live_articles = news_service.call || []
 
-    respond_to do |format|
-      format.html do
-        render locals: { articles:, live_articles:, country_code: }
-      end
-      format.json { render json: { saved_headlines: articles, headlines: live_articles }, status: :ok }
-    end
+    render locals: { articles:, live_articles:, country_code: }
   end
 
   def create
     article = build_article
     if article.save
-      handle_successful("saved", :created, article)
+      handle_successful("saved")
     else
       handle_failed article.errors.full_messages.join
     end
@@ -31,7 +26,7 @@ class ArticlesController < ApplicationController
     article = Article.find_by(id: params[:id])
 
     if article&.destroy
-      handle_successful("deleted", nil, article)
+      handle_successful("deleted")
     elsif article.nil?
       handle_not_found "Headline not found"
     else
@@ -51,40 +46,24 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def handle_successful(item, status, article)
+  def handle_successful(item)
     Rails.logger.info("Headline successfully #{item}")
 
-    respond_to do |format|
-      format.html do
-        flash[:success] = "Headline successfully #{item}"
-        redirect_to root_path
-      end
-      format.json { render json: { message: "Headline successfully #{item}", headline: article }, status: }
-    end
+    flash[:success] = "Headline successfully #{item}"
+    redirect_to root_path
   end
 
   def handle_failed(error_message)
     Rails.logger.error error_message
 
-    respond_to do |format|
-      format.html do
-        flash.now[:error] = error_message
-        render "new"
-      end
-
-      format.json { render json: { error: error_message }, status: :unprocessable_entity }
-    end
+    flash.now[:error] = error_message
+    render "new"
   end
 
   def handle_not_found(message)
     Rails.logger.error message
-    respond_to do |format|
-      format.html do
-        flash[:error] = message
-        redirect_to articles_url
-      end
-      format.json { render json: { error: message }, status: :unprocessable_entity }
-    end
+    flash[:error] = message
+    redirect_to articles_url
   end
 
   protected
