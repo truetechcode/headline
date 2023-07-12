@@ -6,7 +6,6 @@ RSpec.describe "Api::V1::Users" do
   describe "POST /api/v1/users" do
     context "with valid attributes" do
       let(:articles) { build_list(:populated_article, 1) }
-      let(:instance) { NewsApi.new("us") }
 
       before do
         stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=#{ENV.fetch('NEWSAPI_KEY', nil)}&country=us")
@@ -26,8 +25,6 @@ RSpec.describe "Api::V1::Users" do
             }.to_json,
             headers: { "Content-Type": "application/json" }
           )
-
-        allow(instance).to receive(:call).and_return(articles)
 
         user_attributes = attributes_for(:user)
         post "/api/v1/users", params: { user: user_attributes }
