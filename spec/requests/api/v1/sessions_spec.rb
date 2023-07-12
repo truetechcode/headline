@@ -3,13 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "Sessions" do
-  describe "GET /new" do
-    it "returns http success" do
-      get "/sessions/new"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "POST /sessions" do
     let(:user) do
       { name: "user", email: "user@example.com", password: "password", password_confirmation: "password",
