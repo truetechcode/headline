@@ -64,8 +64,8 @@ module Api
       protected
 
       def articles_params
-        params.require(:article).permit(:source, :author, :title, :description, :content, :url, :url_to_image, :publish_at,
-                                        :user)
+        params.require(:article).permit(:source, :author, :title, :description, :content, :url, :url_to_image,
+                                        :publish_at, :user)
       end
     end
   end
