@@ -126,12 +126,22 @@ RSpec.describe "Api::V1::Articles" do
   end
 
   describe "DELETE /articles" do
-    let!(:article) { create(:article) }
+    context "with article found" do
+      let!(:article) { create(:article) }
 
-    it "deletes the article" do
-      expect do
-        delete "/api/v1/articles/#{article.id}"
-      end.to change(Article, :count).by(-1)
+      it "deletes the article" do
+        expect do
+          delete "/api/v1/articles/#{article.id}"
+        end.to change(Article, :count).by(-1)
+      end
+    end
+
+    context "with article not found" do
+      it "deletes the article" do
+        expect do
+          delete "/api/v1/articles/100"
+        end.not_to change(Article, :count)
+      end
     end
   end
 end

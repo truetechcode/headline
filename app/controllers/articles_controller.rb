@@ -15,11 +15,9 @@ class ArticlesController < ApplicationController
 
   def create
     article = build_article
-    if article.save
-      handle_successful("saved")
-    else
-      handle_failed article.errors.full_messages.join
-    end
+    return unless article.save
+
+    handle_successful("saved")
   end
 
   def destroy
@@ -29,8 +27,6 @@ class ArticlesController < ApplicationController
       handle_successful("deleted")
     elsif article.nil?
       handle_not_found "Headline not found"
-    else
-      handle_failed article.errors.full_messages.join
     end
   end
 
@@ -51,13 +47,6 @@ class ArticlesController < ApplicationController
 
     flash[:success] = "Headline successfully #{item}"
     redirect_to root_path
-  end
-
-  def handle_failed(error_message)
-    Rails.logger.error error_message
-
-    flash.now[:error] = error_message
-    render "new"
   end
 
   def handle_not_found(message)
