@@ -2,7 +2,19 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "simplecov"
-SimpleCov.start
+
+SimpleCov.start do
+  # Exclude specific files
+  # add_filter "spec/support/chrome.rb"
+
+  # Exclude specific directories
+  add_filter "spec"
+
+  # Alternatively, you can use add_group to group files/directories and exclude them together
+  # add_group 'Group Name' do |src_file|
+  #   File.dirname(src_file.filename) =~ /pattern/
+  # end
+end
 
 require "shields_badge"
 SimpleCov.formatter = SimpleCov::Formatter::ShieldsBadge
