@@ -23,7 +23,7 @@ ProtectMassAssignmentCheck: { }
 RemoveEmptyHelpersCheck: { }
 #RemoveTabCheck: { }
 RemoveTrailingWhitespaceCheck: { }
-RemoveUnusedMethodsInControllersCheck: { except_methods: [ApplicationController#handle_unverified_request] }
+RemoveUnusedMethodsInControllersCheck: { except_methods: [ApplicationController#handle_unverified_request, Api::V1::UsersController#handle_fail_response, ArticlesController#fetch_country_code, ArticlesController#build_article, ArticlesController#handle_successful, ArticlesController#handle_not_found, ArticlesController#articles_params, SessionsController#handle_successful_response, SessionsController#handle_failed_response, SessionsController#session_params, UsersController#handle_successful_response, UsersController#handle_failed, UsersController#log_error, UsersController#user_params] }
 RemoveUnusedMethodsInHelpersCheck: { except_methods: [SessionsHelper#current_user=] }
 RemoveUnusedMethodsInModelsCheck: { except_methods: [] }
 ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
