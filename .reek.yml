@@ -10,6 +10,9 @@ detectors:
     enabled: false
   UncommunicativeVariableName:
     enabled: false
+  UncommunicativeModuleName:
+    enabled: false
+
   # You can use filters to silence Reek warnings.
   # Either because you simply disagree with Reek (we are not the police) or
   # because you want to fix this at a later point in time.

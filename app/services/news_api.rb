@@ -22,12 +22,27 @@ class NewsApi
   def call
     api_key = ENV.fetch("NEWSAPI_KEY", nil)
     response = self.class.get("/v2/top-headlines", query: { country: @country, apiKey: api_key })
-    data = JSON.parse(response.body)
 
-    raise StandardError, "#{response.code}: #{response.message}" if data["status"] == "error"
+    # handle_error(response)
 
-    data["articles"].map { |article| ArticleDataMapper.map(article) }
+    # parse_articles(response.body)
+
+    ErrorHandling.handle(response)
+
+    ArticleParsing.parse(response.body)
+  rescue StandardError => e
+    Rails.logger.error("NewsApi error: #{e.message}")
   end
-rescue StandardError => e
-  Rails.logger.error("NewsApi error: #{e.message}")
+
+  #   private
+
+  #   def handle_error(response)
+  #     data = JSON.parse(response.body)
+  #     raise StandardError, "#{response.code}: #{data['message']}" if data["status"] == "error"
+  #   end
+
+  #   def parse_articles(body)
+  #     data = JSON.parse(body)
+  #     data["articles"].map { |article| ArticleDataMapper.map(article) }
+  #   end
 end

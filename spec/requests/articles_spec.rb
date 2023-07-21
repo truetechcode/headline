@@ -5,8 +5,6 @@ require "rails_helper"
 RSpec.describe "Articles" do
   let(:articles) { build_list(:populated_article, 1) }
 
-  let(:instance) { NewsApi.new("us") }
-
   before do
     stub_request(:get, "https://newsapi.org/v2/top-headlines?apiKey=#{ENV.fetch('NEWSAPI_KEY', nil)}&country=us")
       .with(
@@ -25,18 +23,6 @@ RSpec.describe "Articles" do
         }.to_json,
         headers: { "Content-Type": "application/json" }
       )
-
-    allow(instance).to receive(:call).and_return(
-      status: 200,
-      body: {
-        status: "ok",
-        totalResults: 0,
-        articles:
-      }.to_json,
-      headers: { "Content-Type": "application/json" }
-    )
-
-    instance.call
 
     create(:user, name: "user", email: "user@example.com", password: "password", password_confirmation: "password")
     post sessions_path, params: { session: { email: "user@example.com", password: "password" } }
@@ -101,7 +87,6 @@ RSpec.describe "Articles" do
       end
 
       it "creates a new article" do
-        Article.last
         expect(Article.count).to eq(1)
       end
 
@@ -141,12 +126,22 @@ RSpec.describe "Articles" do
   end
 
   describe "DELETE /articles" do
-    let!(:article) { create(:article, user: User.last) }
+    context "with article found" do
+      let!(:article) { create(:article, user: User.last) }
 
-    it "deletes the article" do
-      expect do
-        delete article_path(article)
-      end.to change(Article, :count).by(-1)
+      it "deletes the article" do
+        expect do
+          delete article_path(article)
+        end.to change(Article, :count).by(-1)
+      end
+    end
+
+    context "with article not found" do
+      it "does not deletes the article" do
+        expect do
+          delete "/articles/1000"
+        end.not_to change(Article, :count)
+      end
     end
   end
 end

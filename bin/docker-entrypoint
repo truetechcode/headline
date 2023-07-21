@@ -1,13 +1,7 @@
-#!/bin/sh
+#!/bin/bash -e
 
-set -e
-
-if [ -f tmp/pids/server.pid ]; then
-  rm tmp/pids/server.pid
-fi
-
+# If running the rails server then create or migrate existing database
 if [ "${*}" == "./bin/rails server" ]; then
-  ./bin/rails db:create
   ./bin/rails db:prepare
 fi
 
