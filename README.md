@@ -14,6 +14,13 @@ Make sure you have the following software installed on your development machine:
 
 ## Getting Started
 
+### Live Demo
+
+1. Visit the signup page to create an account [`/users/new`](https://rough-sunset-9547.fly.dev/users/new)
+2. Visit the signin page to login [`/sessions/new`](https://rough-sunset-9547.fly.dev/sessions/new)
+
+### Testing Locally
+
 Follow the steps below to set up the development environment and run the Headlines application.
 
 1. Clone the repository:
@@ -150,10 +157,7 @@ The Headlines application provides the following API endpoints for user registra
    - Integrate Devise gem into the Headlines application.
    - Implement token based API authentication strategy.
 
-4. CI/CD Pipeline:
-   - Set up a Continuous Integration and Continuous Deployment (CI/CD) pipeline for the Headlines application.
-
-5. Additional Enhancements:
+4. Additional Enhancements:
    - Implement pagination or infinite scrolling for the headlines index page to improve performance and user experience.
    - Implement caching strategies to optimize API requests and improve overall application performance.
 
